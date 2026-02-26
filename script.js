@@ -4,14 +4,6 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function showFrame(frameId) {
-  document.querySelectorAll(".frame").forEach(frame => {
-    frame.classList.remove("active");
-  });
-  document.getElementById(frameId).classList.add("active");
-  updateStats();
-}
-
 function addTask() {
   const name = document.getElementById("taskInput").value;
   const deadline = document.getElementById("deadlineInput").value;
@@ -34,12 +26,6 @@ function addTask() {
   document.getElementById("deadlineInput").value = "";
 }
 
-function deleteTask(id) {
-  tasks = tasks.filter(task => task.id !== id);
-  saveTasks();
-  renderTasks();
-}
-
 function toggleComplete(id) {
   tasks = tasks.map(task =>
     task.id === id ? {...task, completed: !task.completed} : task
@@ -50,6 +36,8 @@ function toggleComplete(id) {
 
 function renderTasks() {
   const list = document.getElementById("taskList");
+  if (!list) return;
+
   list.innerHTML = "";
 
   tasks.forEach(task => {
@@ -58,18 +46,11 @@ function renderTasks() {
 
     li.innerHTML = `
       <strong>${task.name}</strong><br>
-      Deadline: ${task.deadline}
-
-      <div class="task-buttons">
-        <button class="small-btn" onclick="toggleComplete(${task.id})">
-          ${task.completed ? "Batal" : "Selesai"}
-        </button>
-        <button class="small-btn" onclick="deleteTask(${task.id})">
-          Hapus
-        </button>
-      </div>
+      Deadline: ${task.deadline}<br><br>
+      <button onclick="toggleComplete(${task.id})">
+        ${task.completed ? "Batal" : "Selesai"}
+      </button>
     `;
-
     list.appendChild(li);
   });
 
@@ -81,16 +62,17 @@ function updateStats() {
   const completed = tasks.filter(t => t.completed).length;
   const pending = total - completed;
 
-  document.getElementById("totalTask").textContent = total;
-  document.getElementById("completedTask").textContent = completed;
-  document.getElementById("pendingTask").textContent = pending;
+  if(document.getElementById("totalTask")){
+    document.getElementById("totalTask").textContent = total;
+    document.getElementById("completedTask").textContent = completed;
+    document.getElementById("pendingTask").textContent = pending;
 
-  const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
-  const circle = document.querySelector(".circle");
-  circle.style.background =
-    `conic-gradient(#4CAF50 ${percent * 3.6}deg, #eee 0deg)`;
-  document.getElementById("progressText").textContent = percent + "%";
+    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+    document.querySelector(".circle").style.background =
+      `conic-gradient(#ff6f61 ${percent * 3.6}deg, #eee 0deg)`;
+    document.getElementById("progressText").textContent = percent + "%";
+  }
 }
 
 renderTasks();
-showFrame("homeFrame");
+updateStats();
