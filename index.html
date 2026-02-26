@@ -1,59 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TugasKu Mobile</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TugasKu - Dashboard</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
 
-  <!-- FRAME 1 : HOME -->
-  <div class="frame active" id="homeFrame">
-    <h2>📚 TugasKu</h2>
+<header>
+  <h1>TugasKu</h1>
+  <p>Kelola tugas dengan lebih produktif 🚀</p>
+</header>
 
-    <div class="form">
-      <input type="text" id="taskInput" placeholder="Nama tugas...">
-      <input type="date" id="deadlineInput">
-      <button onclick="addTask()">Tambah</button>
-    </div>
+<div class="card-container">
+  <a href="tasks.html" class="card blue">
+    <h2>📚 Kelola Tugas</h2>
+    <p>Tambah & atur tugas</p>
+  </a>
 
-    <ul id="taskList"></ul>
-  </div>
-
-  <!-- FRAME 2 : STATISTIK -->
-  <div class="frame" id="statsFrame">
+  <a href="stats.html" class="card green">
     <h2>📊 Statistik</h2>
+    <p>Lihat progres belajar</p>
+  </a>
 
-    <div class="circle">
-      <span id="progressText">0%</span>
-    </div>
-
-    <div class="stats-info">
-      <p>Total Tugas: <span id="totalTask">0</span></p>
-      <p>Selesai: <span id="completedTask">0</span></p>
-      <p>Belum Selesai: <span id="pendingTask">0</span></p>
-    </div>
-  </div>
-
-  <!-- FRAME 3 : ABOUT -->
-  <div class="frame" id="aboutFrame">
+  <a href="about.html" class="card orange">
     <h2>ℹ️ Tentang</h2>
-    <p>Aplikasi manajemen tugas siswa.</p>
-    <p>Dibuat untuk membantu produktivitas 📱✨</p>
-  </div>
-
-  <!-- NAVIGATION -->
-  <div class="nav">
-    <button onclick="showFrame('homeFrame')">Home</button>
-    <button onclick="showFrame('statsFrame')">Statistik</button>
-    <button onclick="showFrame('aboutFrame')">Tentang</button>
-  </div>
+    <p>Informasi aplikasi</p>
+  </a>
+</div>
 
 </div>
 
-<script src="script.js"></script>
 </body>
 </html>
