@@ -8,19 +8,18 @@ function addTask() {
   const name = document.getElementById("taskInput").value;
   const deadline = document.getElementById("deadlineInput").value;
 
-  if (name === "" || deadline === "") {
+  if (!name || !deadline) {
     alert("Isi semua field!");
     return;
   }
 
-  const task = {
+  tasks.push({
     id: Date.now(),
     name,
     deadline,
     completed: false
-  };
+  });
 
-  tasks.push(task);
   saveTasks();
   renderTasks();
 
@@ -35,35 +34,28 @@ function deleteTask(id) {
 }
 
 function toggleComplete(id) {
-  tasks = tasks.map(task => {
-    if (task.id === id) task.completed = !task.completed;
-    return task;
-  });
-
+  tasks = tasks.map(task =>
+    task.id === id ? {...task, completed: !task.completed} : task
+  );
   saveTasks();
   renderTasks();
 }
 
-function getCountdown(deadline) {
+function getRemainingDays(deadline) {
   const now = new Date();
   const due = new Date(deadline);
   const diff = due - now;
-
-  if (diff <= 0) return "⚠️ Deadline lewat";
-
-  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-  return `⏳ ${days} hari lagi`;
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
-function updateStats() {
+function updateProgress() {
   const total = tasks.length;
-  const completed = tasks.filter(t => t.completed).length;
+  const done = tasks.filter(t => t.completed).length;
+  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
 
-  document.getElementById("totalTask").textContent = total;
-  document.getElementById("completedTask").textContent = completed;
-
-  const progressPercent = total === 0 ? 0 : (completed / total) * 100;
-  document.getElementById("progress").style.width = progressPercent + "%";
+  const circle = document.querySelector(".circle");
+  circle.style.background = `conic-gradient(#00f5a0 ${percent * 3.6}deg, #ffffff33 0deg)`;
+  document.getElementById("progressText").textContent = percent + "%";
 }
 
 function renderTasks() {
@@ -72,18 +64,22 @@ function renderTasks() {
 
   tasks.forEach(task => {
     const li = document.createElement("li");
-    li.className = task.completed ? "completed" : "";
+    if (task.completed) li.classList.add("completed");
+
+    const daysLeft = getRemainingDays(task.deadline);
+    const warningClass = daysLeft <= 2 && !task.completed ? "warning" : "";
 
     li.innerHTML = `
-      <strong>${task.name}</strong><br>
-      Deadline: ${task.deadline}<br>
-      ${getCountdown(task.deadline)}
+      <div class="task-title">${task.name}</div>
+      <div class="deadline ${warningClass}">
+        ${daysLeft <= 0 ? "⚠️ Deadline lewat" : "⏳ " + daysLeft + " hari lagi"}
+      </div>
 
       <div class="task-buttons">
-        <button class="small-btn" onclick="toggleComplete(${task.id})">
+        <button class="small-btn complete-btn" onclick="toggleComplete(${task.id})">
           ${task.completed ? "Batal" : "Selesai"}
         </button>
-        <button class="small-btn" onclick="deleteTask(${task.id})">
+        <button class="small-btn delete-btn" onclick="deleteTask(${task.id})">
           Hapus
         </button>
       </div>
@@ -92,7 +88,7 @@ function renderTasks() {
     list.appendChild(li);
   });
 
-  updateStats();
+  updateProgress();
 }
 
 renderTasks();
