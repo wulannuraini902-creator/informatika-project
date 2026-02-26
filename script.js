@@ -4,6 +4,14 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
+function showFrame(frameId) {
+  document.querySelectorAll(".frame").forEach(frame => {
+    frame.classList.remove("active");
+  });
+  document.getElementById(frameId).classList.add("active");
+  updateStats();
+}
+
 function addTask() {
   const name = document.getElementById("taskInput").value;
   const deadline = document.getElementById("deadlineInput").value;
@@ -22,7 +30,6 @@ function addTask() {
 
   saveTasks();
   renderTasks();
-
   document.getElementById("taskInput").value = "";
   document.getElementById("deadlineInput").value = "";
 }
@@ -41,23 +48,6 @@ function toggleComplete(id) {
   renderTasks();
 }
 
-function getRemainingDays(deadline) {
-  const now = new Date();
-  const due = new Date(deadline);
-  const diff = due - now;
-  return Math.ceil(diff / (1000 * 60 * 60 * 24));
-}
-
-function updateProgress() {
-  const total = tasks.length;
-  const done = tasks.filter(t => t.completed).length;
-  const percent = total === 0 ? 0 : Math.round((done / total) * 100);
-
-  const circle = document.querySelector(".circle");
-  circle.style.background = `conic-gradient(#00f5a0 ${percent * 3.6}deg, #ffffff33 0deg)`;
-  document.getElementById("progressText").textContent = percent + "%";
-}
-
 function renderTasks() {
   const list = document.getElementById("taskList");
   list.innerHTML = "";
@@ -66,20 +56,15 @@ function renderTasks() {
     const li = document.createElement("li");
     if (task.completed) li.classList.add("completed");
 
-    const daysLeft = getRemainingDays(task.deadline);
-    const warningClass = daysLeft <= 2 && !task.completed ? "warning" : "";
-
     li.innerHTML = `
-      <div class="task-title">${task.name}</div>
-      <div class="deadline ${warningClass}">
-        ${daysLeft <= 0 ? "⚠️ Deadline lewat" : "⏳ " + daysLeft + " hari lagi"}
-      </div>
+      <strong>${task.name}</strong><br>
+      Deadline: ${task.deadline}
 
       <div class="task-buttons">
-        <button class="small-btn complete-btn" onclick="toggleComplete(${task.id})">
+        <button class="small-btn" onclick="toggleComplete(${task.id})">
           ${task.completed ? "Batal" : "Selesai"}
         </button>
-        <button class="small-btn delete-btn" onclick="deleteTask(${task.id})">
+        <button class="small-btn" onclick="deleteTask(${task.id})">
           Hapus
         </button>
       </div>
@@ -88,7 +73,24 @@ function renderTasks() {
     list.appendChild(li);
   });
 
-  updateProgress();
+  updateStats();
+}
+
+function updateStats() {
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
+  const pending = total - completed;
+
+  document.getElementById("totalTask").textContent = total;
+  document.getElementById("completedTask").textContent = completed;
+  document.getElementById("pendingTask").textContent = pending;
+
+  const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+  const circle = document.querySelector(".circle");
+  circle.style.background =
+    `conic-gradient(#4CAF50 ${percent * 3.6}deg, #eee 0deg)`;
+  document.getElementById("progressText").textContent = percent + "%";
 }
 
 renderTasks();
+showFrame("homeFrame");
