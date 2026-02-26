@@ -1,11 +1,9 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
   display: flex;
   justify-content: center;
 }
@@ -15,34 +13,50 @@ body {
   max-width: 430px;
   min-height: 100vh;
   background: white;
-  position: relative;
-  padding-bottom: 70px;
-}
-
-.frame {
-  display: none;
   padding: 20px;
-  animation: fade 0.3s ease-in-out;
 }
 
-.frame.active {
-  display: block;
-}
-
-@keyframes fade {
-  from { opacity: 0; transform: translateX(10px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-h2 {
+header {
   text-align: center;
+  margin-bottom: 20px;
 }
+
+header h1 {
+  margin: 0;
+}
+
+.back {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #ff6f61;
+  font-weight: bold;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card {
+  padding: 20px;
+  border-radius: 15px;
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.card:hover { transform: scale(1.05); }
+
+.blue { background: #4facfe; }
+.green { background: #43e97b; }
+.orange { background: #fa709a; }
 
 .form {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 20px;
 }
 
 input {
@@ -55,7 +69,7 @@ button {
   padding: 12px;
   border-radius: 10px;
   border: none;
-  background: #667eea;
+  background: #ff6f61;
   color: white;
   font-weight: bold;
 }
@@ -63,10 +77,11 @@ button {
 ul {
   list-style: none;
   padding: 0;
+  margin-top: 20px;
 }
 
 li {
-  background: #f2f2f2;
+  background: #f7f7f7;
   padding: 15px;
   border-radius: 12px;
   margin-bottom: 10px;
@@ -77,21 +92,9 @@ li.completed {
   background: #d4edda;
 }
 
-.task-buttons {
-  display: flex;
-  gap: 5px;
-  margin-top: 10px;
-}
-
-.small-btn {
-  flex: 1;
-  padding: 6px;
-  font-size: 12px;
-}
-
 .circle {
-  width: 140px;
-  height: 140px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin: 20px auto;
   display: flex;
@@ -99,27 +102,16 @@ li.completed {
   justify-content: center;
   font-size: 22px;
   font-weight: bold;
-  background: conic-gradient(#4CAF50 0deg, #eee 0deg);
+  background: conic-gradient(#ff6f61 0deg, #eee 0deg);
 }
 
 .stats-info {
   text-align: center;
+  font-size: 18px;
 }
 
-.nav {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  max-width: 430px;
-  display: flex;
-  justify-content: space-around;
-  background: white;
-  border-top: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-.nav button {
-  background: none;
-  color: #667eea;
-  font-weight: bold;
+.about-text {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 30px;
 }
