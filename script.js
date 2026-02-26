@@ -5,18 +5,18 @@ function saveTasks() {
 }
 
 function addTask() {
-  const taskInput = document.getElementById("taskInput");
-  const deadlineInput = document.getElementById("deadlineInput");
+  const name = document.getElementById("taskInput").value;
+  const deadline = document.getElementById("deadlineInput").value;
 
-  if (taskInput.value === "" || deadlineInput.value === "") {
+  if (name === "" || deadline === "") {
     alert("Isi semua field!");
     return;
   }
 
   const task = {
     id: Date.now(),
-    name: taskInput.value,
-    deadline: deadlineInput.value,
+    name,
+    deadline,
     completed: false
   };
 
@@ -24,8 +24,8 @@ function addTask() {
   saveTasks();
   renderTasks();
 
-  taskInput.value = "";
-  deadlineInput.value = "";
+  document.getElementById("taskInput").value = "";
+  document.getElementById("deadlineInput").value = "";
 }
 
 function deleteTask(id) {
@@ -36,9 +36,7 @@ function deleteTask(id) {
 
 function toggleComplete(id) {
   tasks = tasks.map(task => {
-    if (task.id === id) {
-      task.completed = !task.completed;
-    }
+    if (task.id === id) task.completed = !task.completed;
     return task;
   });
 
@@ -51,10 +49,21 @@ function getCountdown(deadline) {
   const due = new Date(deadline);
   const diff = due - now;
 
-  if (diff <= 0) return "Deadline lewat!";
+  if (diff <= 0) return "⚠️ Deadline lewat";
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  return `${days} hari lagi`;
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  return `⏳ ${days} hari lagi`;
+}
+
+function updateStats() {
+  const total = tasks.length;
+  const completed = tasks.filter(t => t.completed).length;
+
+  document.getElementById("totalTask").textContent = total;
+  document.getElementById("completedTask").textContent = completed;
+
+  const progressPercent = total === 0 ? 0 : (completed / total) * 100;
+  document.getElementById("progress").style.width = progressPercent + "%";
 }
 
 function renderTasks() {
@@ -68,13 +77,22 @@ function renderTasks() {
     li.innerHTML = `
       <strong>${task.name}</strong><br>
       Deadline: ${task.deadline}<br>
-      ⏳ ${getCountdown(task.deadline)}<br><br>
-      <button onclick="toggleComplete(${task.id})">Selesai</button>
-      <button onclick="deleteTask(${task.id})">Hapus</button>
+      ${getCountdown(task.deadline)}
+
+      <div class="task-buttons">
+        <button class="small-btn" onclick="toggleComplete(${task.id})">
+          ${task.completed ? "Batal" : "Selesai"}
+        </button>
+        <button class="small-btn" onclick="deleteTask(${task.id})">
+          Hapus
+        </button>
+      </div>
     `;
 
     list.appendChild(li);
   });
+
+  updateStats();
 }
 
 renderTasks();
