@@ -3,31 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TugasKu Pro</title>
+  <title>TugasKu Mobile</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="app">
 
-  <div class="header">
-    <h1>TugasKu</h1>
-    <p>Kelola tugasmu dengan rapi ✨</p>
+  <!-- FRAME 1 : HOME -->
+  <div class="frame active" id="homeFrame">
+    <h2>📚 TugasKu</h2>
+
+    <div class="form">
+      <input type="text" id="taskInput" placeholder="Nama tugas...">
+      <input type="date" id="deadlineInput">
+      <button onclick="addTask()">Tambah</button>
+    </div>
+
+    <ul id="taskList"></ul>
   </div>
 
-  <div class="progress-container">
+  <!-- FRAME 2 : STATISTIK -->
+  <div class="frame" id="statsFrame">
+    <h2>📊 Statistik</h2>
+
     <div class="circle">
       <span id="progressText">0%</span>
     </div>
+
+    <div class="stats-info">
+      <p>Total Tugas: <span id="totalTask">0</span></p>
+      <p>Selesai: <span id="completedTask">0</span></p>
+      <p>Belum Selesai: <span id="pendingTask">0</span></p>
+    </div>
   </div>
 
-  <div class="form">
-    <input type="text" id="taskInput" placeholder="Nama tugas...">
-    <input type="date" id="deadlineInput">
-    <button onclick="addTask()">Tambah Tugas</button>
+  <!-- FRAME 3 : ABOUT -->
+  <div class="frame" id="aboutFrame">
+    <h2>ℹ️ Tentang</h2>
+    <p>Aplikasi manajemen tugas siswa.</p>
+    <p>Dibuat untuk membantu produktivitas 📱✨</p>
   </div>
 
-  <ul id="taskList"></ul>
+  <!-- NAVIGATION -->
+  <div class="nav">
+    <button onclick="showFrame('homeFrame')">Home</button>
+    <button onclick="showFrame('statsFrame')">Statistik</button>
+    <button onclick="showFrame('aboutFrame')">Tentang</button>
+  </div>
 
 </div>
 
