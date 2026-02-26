@@ -3,31 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manajemen Tugas Siswa</title>
+  <title>TugasKu Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="app">
-    <h1>📚 TugasKu</h1>
+<div class="app">
 
-    <div class="stats">
-      <p>Total: <span id="totalTask">0</span></p>
-      <p>Selesai: <span id="completedTask">0</span></p>
-    </div>
-
-    <div class="progress-bar">
-      <div id="progress"></div>
-    </div>
-
-    <div class="form">
-      <input type="text" id="taskInput" placeholder="Nama tugas...">
-      <input type="date" id="deadlineInput">
-      <button onclick="addTask()">+ Tambah Tugas</button>
-    </div>
-
-    <ul id="taskList"></ul>
+  <div class="header">
+    <h1>TugasKu</h1>
+    <p>Kelola tugasmu dengan rapi ✨</p>
   </div>
+
+  <div class="progress-container">
+    <div class="circle">
+      <span id="progressText">0%</span>
+    </div>
+  </div>
+
+  <div class="form">
+    <input type="text" id="taskInput" placeholder="Nama tugas...">
+    <input type="date" id="deadlineInput">
+    <button onclick="addTask()">Tambah Tugas</button>
+  </div>
+
+  <ul id="taskList"></ul>
+
+</div>
 
 <script src="script.js"></script>
 </body>
